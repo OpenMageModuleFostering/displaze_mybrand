@@ -1,0 +1,54 @@
+<?php
+
+/* 
+ * top.phtml
+ * 
+ * Copyright (c) 2012 Aftab Naveed <aftabnaveed@gmail.com>. 
+ * 
+ * This file is part of Displaze Web Services Inc..
+ * 
+ * Displaze Web Services Inc. is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * Displaze Web Services Inc. is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Displaze Web Services Inc..  If not, see <http ://www.gnu.org/licenses/>.
+ */
+?>
+<?php
+/**
+ * Top menu for store
+ *
+ * @see Displaze_MyBrand_Block_Page_Html_Topmenu
+ */
+?>
+<?php $_menu = $this->getHtml('level-top') ?>
+<?php if($_menu): ?>
+<div class="nav-container">
+    <ul id="nav">
+        <?php echo $_menu ?>
+        <!--Code to include shopby brand menu -->
+        <?php $manufacturerCollection = $this->getManufacturerCollection(); ?>
+        <?php if ( count($manufacturerCollection) != 0 ) : ?>
+        <li class="current shop-by-brand">
+            <a href="#"><?php echo $this->__('Shop By Brand') ?></a>
+            <ul>
+                <?php foreach ( $manufacturerCollection as $_manufacturer ) : ?>
+                <li>
+                    <a href="<?php echo Mage::helper('mybrand/manufacturer')->getUrl($_manufacturer->getIdentifier()); ?>" class="">
+                        <span><?php echo $this->htmlEscape($_manufacturer->getTitle()) ?></span>
+                    </a>
+                </li>
+                <?php endforeach ?>
+            </ul>
+        </li>
+        <?php endif; ?>
+    </ul>
+</div>
+<?php endif ?>

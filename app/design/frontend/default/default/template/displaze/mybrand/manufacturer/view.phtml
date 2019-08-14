@@ -1,0 +1,40 @@
+<?php
+
+/* 
+ * view.phtml
+ * 
+ * Copyright (c) 2012 Aftab Naveed <aftabnaveed@gmail.com>. 
+ * 
+ * This file is part of Displaze Web Services Inc..
+ * 
+ * Displaze Web Services Inc. is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * Displaze Web Services Inc. is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Displaze Web Services Inc..  If not, see <http ://www.gnu.org/licenses/>.
+ */
+$_manufacturer = $this->getManufacturer();
+?>
+<?php
+ /**
+  * @see Displaze_MyBrand_Block_Adminhtml_Manufacturer 
+  */
+?>
+
+<h1><?php echo $_manufacturer->getTitle(); ?></h1>
+
+<div class="description">
+    <?php if(file_exists(Mage::helper('mybrand')->getBrandMediaPath() . $_manufacturer->getLogo())): ?>
+        <img src="<?php echo Mage::helper('mybrand')->getBrandMediaUrl() . $_manufacturer->getLogo() ?>" />
+    <?php endif; ?>
+    <?php echo $_manufacturer->getContent(); ?>
+</div>
+
+<?php echo $this->getChildHtml('manufacturer_product_list'); //display products associated with this manufacturer ?>

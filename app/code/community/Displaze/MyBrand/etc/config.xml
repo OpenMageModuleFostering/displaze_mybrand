@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+config.xml
+
+Copyright (c) 2012 Aftab Naveed <aftabnaveed@gmail.com>. 
+
+This file is part of Displaze Web Services Inc..
+
+Displaze Web Services Inc. is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Displaze Web Services Inc. is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Displaze Web Services Inc..  If not, see <http ://www.gnu.org/licenses/>.
+-->
+
+<config>
+    <modules>
+        <Displaze_MyBrand>
+            <version>1.7.0</version>
+        </Displaze_MyBrand>
+    </modules>
+    
+    <global>
+        
+        <blocks>
+            <mybrand>
+                <class>Displaze_MyBrand_Block</class>
+            </mybrand>
+            
+            <!--@Override Navigation Block to include shopby brand menu -->
+            <page>
+                <rewrite>
+                    <html_topmenu>Displaze_MyBrand_Block_Page_Html_Topmenu</html_topmenu>
+                </rewrite>
+            </page>
+            
+        </blocks>
+        
+        <models>
+            <mybrand>
+                <class>Displaze_MyBrand_Model</class>
+                <resourceModel>mybrand_resource</resourceModel>
+            </mybrand>
+            
+            <mybrand_resource>
+                <class>Displaze_MyBrand_Model_Resource</class>
+                <entities>
+                    <manufacturer>
+                        <table>displaze_mybrand_manufacturer</table>
+                    </manufacturer>
+                    <manufacturer_product>
+                        <table>displaze_mybrand_manufacturer_product</table>
+                    </manufacturer_product>
+                    <manufacturer_store>
+                        <table>displaze_mybrand_manufacturer_store</table>
+                    </manufacturer_store>
+                </entities>
+            </mybrand_resource>
+        </models>
+        
+        <!-- used for installation/entry in core_resource table -->
+        <resources>
+            <mybrand_setup>
+                <setup>
+                    <module>Displaze_MyBrand</module>
+                </setup>
+            </mybrand_setup>
+        </resources>
+        
+        <helpers>
+            <mybrand>
+                <class>Displaze_MyBrand_Helper</class>
+            </mybrand>
+        </helpers>
+        
+        <!--@Register Frontend Router for MyBrand -->
+        <events>
+            <controller_front_init_routers>
+                <observers>
+                    <mybrand>
+                        <class>Displaze_MyBrand_Controller_Router</class>
+                        <method>initControllerRouters</method>
+                    </mybrand>
+                </observers>
+            </controller_front_init_routers>
+        </events>
+
+    </global>
+    
+    <!--Admin controller router Configuration -->
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Displaze_MyBrand before="Mage_Adminhtml">Displaze_MyBrand_Adminhtml</Displaze_MyBrand>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    
+    <frontend>
+        <routers>
+         <mybrand>
+            <use>standard</use>
+            <args>
+               <module>Displaze_MyBrand</module>
+               <frontName>mybrand</frontName>
+            </args>
+         </mybrand>
+        </routers>
+        <!--@frontend layout file -->
+        <layout>
+            <updates>
+                <mybrand>
+                    <file>displaze/mybrand.xml</file>
+                </mybrand>
+            </updates>
+        </layout>
+     </frontend>
+    
+    <adminhtml>
+        <layout>
+            <updates>
+                <mybrand>
+                    <file>displaze/mybrand.xml</file>
+                </mybrand>
+            </updates>
+        </layout>
+        
+        <!--There are two event observers :
+    1. first one to shoot when the product edit tabs are generated, this one will inject a tab for product family.
+    2. Second observers will shoot when ever a product is saved, it will insert any data that might be set/edited in custom product family tab, in the product mangement ( magento admin or backend).
+    */
+    -->
+    <!-- Below will be implemented in next version this version will not have an product tab
+    <events>
+        <core_block_abstract_prepare_layout_after>
+            <observers>
+                <displaze_mybrand_product_injectTabs>
+                    <type>singleton</type>
+                    <class>mybrand/observer_product</class>
+                    <method>injectTabs</method>
+                </displaze_mybrand_product_injectTabs>
+            </observers>
+        </core_block_abstract_prepare_layout_after>
+        <catalog_product_save_after>
+            <observers>
+                <displaze_mybrand_save_product_data>
+                    <type>singleton</type>
+                    <class>mybrand/observer_product</class>
+                    <method>saveTabData</method>
+                </displaze_mybrand_save_product_data>
+            </observers>
+        </catalog_product_save_after>
+    </events> -->
+    </adminhtml>
+    
+</config>
